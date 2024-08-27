@@ -185,10 +185,10 @@ table th {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 #close-btn {
-    /* background-color: #8abacf; */
+    background-color: #c4c2c3;
     width: 10px;
     color: #781c1c;
-    /* border: 1px solid #808080; */
+    border: 1px solid #808080;
     text-align: center;
     padding: 3px;
     position: relative;
