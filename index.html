@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InvoAlchemy</title>
+    <link rel="icon" href="images/invoalchemy-logo.png" sizes="48x48" type="image/png">
+    <!-- <link rel="icon" href="images\money.png" type="image/png"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="comp-name-res"></div>
+
+        <div class="input-container">
+            <input type="text" id="invoice" value="INVOICE">
+            <!-- <div class="edit-icon">
+                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+            </div> -->
+            <input type="text" id="invoice-num" placeholder="#IN00987654321">
+        </div>
+    </div>
+
+    <!-- popup -->
+
+    <div id="popupForm" class="form-popup">
+        <div class="form-container" id="form-container">
+            <h2>Contact Form</h2>
+            <label for="name">Name:<span class="mandatory">*</span></label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="address">Address:<span class="mandatory">*</span></label>
+            <input type="text" id="address" name="address" required>
+
+            <label for="email">Email:<span class="mandatory">*</span></label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="phone">Phone Number:<span class="mandatory">*</span></label>
+            <input type="tel" id="phone" name="phone" required>
+
+            <button type="submit" class="submit-btn">Submit</button>
+            <button type="button" class="cancel-btn" id="closeFormBtn">Close</button>
+        </div>
+    </div>
+
+    <!-- details  -->
+    <div class="details-container">
+        <div class="fetch-details">
+            <div class="from-details" id="from-details">
+                <h4 class="name">Your Details</h4>
+                <p>FROM</p>
+                <h3>XYZ Seller</h3>
+                <p class="details">123 Sell Street <br> Orange Country</p>
+                <p>example@gmail.com</p>
+                <p>1234567890</p>
+            </div>
+            <div class="to-details" id="to-details">
+                <h4 class="name">Client's Details</h4>
+                <p>TO</p>
+                <h3>XYZ Buyer</h3>
+                <p class="details">123 Buy Street <br> Blue Country</p>
+                <p>example@gmail.com</p>
+                <p>1234567890</p>
+            </div>
+        </div>
+        <div class="inv-info">
+
+            <div class="info-group">
+                <div class="form-group">
+                    <label for="input1">Date:</label>
+                    <input type="text" id="input1" name="input1">
+                </div>
+                <!-- <div class="form-group">
+                    <label for="input2">PO Number:</label>
+                    <input type="text" id="input2" name="input2">
+                </div>
+                <div class="form-group">
+                    <label for="input3">Due Date:</label>
+                    <input type="text" id="input3" name="input3">
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+    <div class="items-det">
+        <table class="items">
+            <thead>
+                <tr>
+                    <th class="th-items right">Item</th>
+                    <th class="th-items left">Quantity</th>
+                    <th class="th-items left">Price</th>
+                    <th class="th-items left">Tax</th>
+                    <th class="th-items left">Sub Total</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr class="table-inputs">
+                    <td id="first-inp"><input type="text" class="item-control wide" ></td>
+                    <td id="rightside"><input type="text" class="item-control small" ></td>
+                    <td id="rightside"><input type="text" class="item-control small" ></td>
+                    <td id="rightside"><input type="text" class="item-control small" ></td>
+                    <td id="rightside"><label id="subtotal" class="item-control medium" >₹ 0</label></td>
+                    <td id="close-btn">X</td>
+                        
+                    <!-- <td><button class="delete-btn">x</button></td> -->
+                </tr>
+                <tr class="button">
+                    <td class="button-cell">
+                        <button type="button" class="add-item">Add Item</button>
+                    </td>
+                </tr>
+            </tbody>
+           
+        </table>
+    </div>
+    <br><br><br><br>
+
+    <!-- <div class="details-container">
+        <div class="payment-summary">
+            <h2>Payment Details</h2>
+            <div class="payment-options">
+                <label class="upi-label">UPI</label>
+                <input type="text" id="upi"><br>
+                <label class="acno-label">Account Number</label>
+                <input type="text" id="acno">
+            </div>
+        </div>
+    </div> -->
+
+
+    <div class="result-container">
+        <div class="left-section">
+            <div class="main-label">PAYMENT DETAILS</div>
+            <div class="form-group">
+                <label for="input1">UPI:</label>
+                <input class="upi" type="text" id="input1" name="input1">
+            </div>
+            <div class="form-group">
+                <label for="input2">GST:</label>
+                <input class="acno" type="text" id="input2" name="input2">
+            </div>
+            <div class="form-group">
+                <label for="payment-method">Method of Payment:</label>
+                <div class="radio-group">
+                    <input type="radio" id="payment-cash" name="payment-method" value="cash">
+                    <label for="payment-cash">In Cash</label>
+                    <input type="radio" id="payment-online" name="payment-method" value="online">
+                    <label for="payment-online">Online</label>
+                </div>
+            </div>
+            <br><br>
+
+            <!-- <div class="notes-terms-container">
+                <div class="notes">
+                    <div class="label">NOTES</div>
+                    <input type="text" id="notes-input" name="notes">
+                </div>
+                <div class="terms">
+                    <div class="label">TERMS</div>
+                    <input type="text" id="terms-input" name="terms">
+                </div>
+                <div class="button-container">
+                    <button class="download" type="button">Download PDF</button>
+                </div>
+            </div> -->
+
+            <div class="notes">
+                <div class="label">NOTES</div>
+                <input type="text" id="notes-input" name="notes"> 
+            </div>
+            <div class="terms">
+                <div class="label">TERMS</div>
+                <input type="text" id="terms-input" name="terms">
+            </div>
+        </div>
+        <div class="right-section">
+            <div class="main-label">INVOICE SUMMARY</div>
+            <div class="form-group">
+                <label for="right-input1">Subtotal:</label>
+                <label id="res-subtotal">₹ 0</label>
+            </div>
+            <div class="form-group">
+                <label for="right-input2">Tax:</label>
+                <label id="res-tax">₹ 0</label>
+            </div>
+            <div class="form-group">
+                <label id="label-total" for="right-input3">TOTAL:</label>
+                <label id="res-total">₹ 0</label>
+            </div>
+            <div class="button-container">
+                <button class="download" type="button">Download PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
