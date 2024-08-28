@@ -26,6 +26,7 @@ function displayPopUp() {
     popupForm.style.display = 'flex';
 }
 
+// clearing existing values from form 
 function clearFormInputs(){
     const name = document.getElementById('name');
     const address = document.getElementById('address');
