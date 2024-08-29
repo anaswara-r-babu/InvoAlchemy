@@ -5,6 +5,9 @@ const closeFormBtn = document.getElementById('closeFormBtn');
 const submitPopup = document.getElementById('submit-btn')
 const add_item = document.querySelector('.add-item');
 
+const tbody = document.getElementById('itemTableBody');
+const xbtn = document.getElementById('close-btn');
+
 let companyDetails = {
     name :'',
     address:'',
@@ -151,7 +154,7 @@ function validatePhone(phone) {
 
 
 function newRowCreation() {
-    const tbody = document.getElementById('itemTableBody');
+    // const tbody = document.getElementById('itemTableBody');
     const newRow = document.createElement('tr');
     newRow.classList.add('table-inputs');
 
@@ -166,6 +169,34 @@ function newRowCreation() {
 
     tbody.insertBefore(newRow, tbody.lastElementChild);
 }
+
+// row deleting on x button 
+
+function RowDeletion(event) {
+    if (event.target && event.target.id === 'close-btn') {
+        const row = event.target.closest('tr'); // Find the closest table row
+        if (row) {
+            row.remove(); // Remove the row from the table
+        }
+    }
+}
+
+// getting qty 
+
+// function getAllQuantities() {
+//     const rows = document.querySelectorAll('#itemTableBody .table-inputs');
+//     const quantities = [];
+
+//     rows.forEach(row => {
+//         const qtyInput = row.querySelector('input.item-control.small');
+//         if (qtyInput) {
+//             quantities.push(qtyInput.value);
+//         }
+//     });
+
+//     console.log('All quantities:', quantities);
+//     return quantities;
+// }
 
 
 // EVENT LISTNERS 
@@ -186,7 +217,12 @@ closeFormBtn.addEventListener('click', function() {
     popupForm.style.display = 'none';
 });
 
-add_item.addEventListener('click',newRowCreation);
+add_item.addEventListener('click', () => {
+    newRowCreation();
+    // getAllQuantities();
+});
+
+tbody.addEventListener('click', RowDeletion);
 
 // popupForm.addEventListener('click', function(e) ){
 //     if (e.target === popupForm) {
