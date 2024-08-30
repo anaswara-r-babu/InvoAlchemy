@@ -68,6 +68,7 @@ input:focus {
     display: flex;
     justify-content: space-between;
     padding-top: 20px;
+    /* width: 80%; */
 }
 
 /* left div  */
@@ -102,7 +103,7 @@ input:focus {
 /* right div  */
 .inv-info {
     display: flex;
-    width: 300px;
+    /* width: 300px; */
     min-height: 150px;
 }
 
@@ -117,7 +118,7 @@ input:focus {
 .inv-info label {
     margin-bottom: 5px;
     display: inline-block;
-    width: 100px;
+    width: 50px;
     font-size: 14px;
     /* padding: 10px; */
 }

@@ -8,6 +8,15 @@ const add_item = document.querySelector('.add-item');
 const tbody = document.getElementById('itemTableBody');
 const xbtn = document.getElementById('close-btn');
 
+
+// Invoice summary elements
+const resSubtotal = document.getElementById('res-subtotal');
+const resTax = document.getElementById('res-tax');
+const resTotal = document.getElementById('res-total');
+
+// Array to store each row's data
+let itemsData = [];
+
 let companyDetails = {
     name :'',
     address:'',
@@ -152,6 +161,40 @@ function validatePhone(phone) {
     return /^\d{10}$/.test(phone);
 }
 
+// Function to add event listeners to quantity and price inputs for real-time calculations
+
+function addCalculationListeners(row , rowIndex) {
+    const descInput = row.querySelector('.description');
+    const qtyInput = row.querySelector('.qty'); 
+    const priceInput = row.querySelector('.price');
+    const taxInput = row.querySelector('.taxation');
+    const subtotalLabel = row.querySelector('.subtotal');
+
+    // Function to calculate subtotal
+    function calculateSubtotal() {
+        const desc = descInput.value.trim();
+        const qty = parseFloat(qtyInput.value) || 0; 
+        const price = parseFloat(priceInput.value) || 0; 
+        const tax = parseFloat(taxInput.value) || 0;
+        const subtotal = qty * price; 
+
+        subtotalLabel.textContent = `₹ ${subtotal.toFixed(2)}`;
+
+        itemsData[rowIndex] = {
+            desc,
+            qty,
+            price,
+            tax,
+            subtotal
+        };
+    }
+    descInput.addEventListener('input', calculateSubtotal);
+    qtyInput.addEventListener('input', calculateSubtotal);
+    priceInput.addEventListener('input', calculateSubtotal);
+    taxInput.addEventListener('input', calculateSubtotal);
+
+    
+}
 
 function newRowCreation() {
     // const tbody = document.getElementById('itemTableBody');
@@ -159,15 +202,22 @@ function newRowCreation() {
     newRow.classList.add('table-inputs');
 
     newRow.innerHTML = `
-        <td id="first-inp"><input type="text" class="item-control wide"></td>
-        <td id="rightside"><input type="text" class="item-control small"></td>
-        <td id="rightside"><input type="text" class="item-control small"></td>
-        <td id="rightside"><input type="text" class="item-control small"></td>
-        <td id="rightside"><label class="item-control medium">₹ 0</label></td>
+        <td id="first-inp"><input type="text" class="item-control wide description"></td>
+        <td id="rightside"><input type="text" class="item-control small qty"></td>
+        <td id="rightside"><input type="text" class="item-control small price"></td>
+        <td id="rightside"><input type="text" class="item-control small taxation"></td>
+        <td id="rightside"><label class="item-control medium subtotal">₹ 0</label></td>
         <td id="close-btn">X</td>
     `;
 
+    // tbody.appendChild(newRow);
     tbody.insertBefore(newRow, tbody.lastElementChild);
+
+    const rowIndex = itemsData.length; // Index of the new row
+    itemsData.push({ desc: '', qty: 0, price: 0,tax: 0, subtotal: 0 });
+
+    // Add listeners for real-time calculation
+    addCalculationListeners(newRow,rowIndex);
 }
 
 // row deleting on x button 
@@ -176,6 +226,8 @@ function RowDeletion(event) {
     if (event.target && event.target.id === 'close-btn') {
         const row = event.target.closest('tr'); // Find the closest table row
         if (row) {
+            const rowIndex = Array.from(tbody.children).indexOf(row); 
+            itemsData.splice(rowIndex, 1);
             row.remove(); // Remove the row from the table
         }
     }
@@ -198,6 +250,7 @@ function RowDeletion(event) {
 //     return quantities;
 // }
 
+console.log(itemsData);
 
 // EVENT LISTNERS 
 fromDetails.addEventListener('click',() => {
@@ -216,6 +269,9 @@ todetails.addEventListener('click', () => {
 closeFormBtn.addEventListener('click', function() {
     popupForm.style.display = 'none';
 });
+
+// Attach event listeners to existing rows for calculation
+document.querySelectorAll('.table-inputs').forEach(row => addCalculationListeners(row));
 
 add_item.addEventListener('click', () => {
     newRowCreation();
