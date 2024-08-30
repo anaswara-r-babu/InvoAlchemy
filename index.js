@@ -8,12 +8,16 @@ const add_item = document.querySelector('.add-item');
 const tbody = document.getElementById('itemTableBody');
 const xbtn = document.getElementById('close-btn');
 
+let totalsub = 0;
+let totalTax = 0;
 
 // Invoice summary elements
 const resSubtotal = document.getElementById('res-subtotal');
 const resTax = document.getElementById('res-tax');
 const resTotal = document.getElementById('res-total');
 
+
+const Total = 0;
 // Array to store each row's data
 let itemsData = [];
 
@@ -187,6 +191,10 @@ function addCalculationListeners(row , rowIndex) {
             tax,
             subtotal
         };
+
+        calculateTotal();
+        calculateTax();
+        calculateSum();
     }
     descInput.addEventListener('input', calculateSubtotal);
     qtyInput.addEventListener('input', calculateSubtotal);
@@ -194,6 +202,40 @@ function addCalculationListeners(row , rowIndex) {
     taxInput.addEventListener('input', calculateSubtotal);
 
     
+}
+
+// total 
+function calculateTotal() {
+    // const totalsub = itemsData.reduce((acc, item) => acc + item.subtotal, 0);
+    // resSubtotal.textContent = `₹ ${totalsub.toFixed(2)}`;
+        totalsub = Array.from(tbody.querySelectorAll('.subtotal')).reduce((acc, label) => {
+        const value = parseFloat(label.textContent.replace('₹ ', '')) || 0;
+        return acc + value;
+    }, 0);
+
+    // Update the subtotal display
+    resSubtotal.textContent = `₹ ${totalsub.toFixed(2)}`;
+}
+
+// calculating tax 
+function calculateTax(){
+        totalTax = Array.from(tbody.querySelectorAll('.taxation')).reduce((acc, input) => {
+        const value = parseFloat(input.value) || 0;
+        return acc + value;
+    }, 0);
+
+    // Update the total tax display
+    resTax.textContent = `₹ ${totalTax.toFixed(2)}`;
+}
+
+// calculating total sum 
+function calculateSum(){
+    const Total = totalsub+ totalTax;
+
+    // Update the total tax display
+    resTotal.textContent = `₹ ${Total.toFixed(2)}`;
+    resTotal.style.fontWeight = 'bold'; 
+    resTotal.style.fontSize = '18px';
 }
 
 function newRowCreation() {
@@ -229,6 +271,11 @@ function RowDeletion(event) {
             const rowIndex = Array.from(tbody.children).indexOf(row); 
             itemsData.splice(rowIndex, 1);
             row.remove(); // Remove the row from the table
+
+            // Recalculate total after a row is removed
+            calculateTotal();
+            calculateTax();
+            calculateSum();
         }
     }
 }
@@ -275,8 +322,13 @@ document.querySelectorAll('.table-inputs').forEach(row => addCalculationListener
 
 add_item.addEventListener('click', () => {
     newRowCreation();
+    calculateTotal();
+    calculateTax();
+    calculateSum();
     // getAllQuantities();
 });
+
+// document.addEventListener('DOMContentLoaded', calculateTotal);
 
 tbody.addEventListener('click', RowDeletion);
 
