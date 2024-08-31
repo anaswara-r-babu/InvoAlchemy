@@ -8,8 +8,18 @@ const add_item = document.querySelector('.add-item');
 const tbody = document.getElementById('itemTableBody');
 const xbtn = document.getElementById('close-btn');
 
+const dateInput = document.getElementById('date-input');
+
 let totalsub = 0;
 let totalTax = 0;
+
+
+const upiInput = document.querySelector('.upi');
+const acnoInput = document.querySelector('.acno');
+const radioGroup = document.querySelectorAll('input[name="payment-method"]');
+const note = document.getElementById('notes-input');
+const term = document.getElementById('terms-input');
+
 
 // Invoice summary elements
 const resSubtotal = document.getElementById('res-subtotal');
@@ -66,6 +76,13 @@ function formSubmitComp(e) {
 function formSubmitClient(e) {
     e.preventDefault();
     formSubmit('client');
+}
+
+// Function to get the date value
+function getDateValue() {
+    const dateValue = dateInput.value;
+    // console.log('Selected Date:', dateValue); 
+    return dateValue;
 }
 
 // submitting form (company)
@@ -299,6 +316,40 @@ function RowDeletion(event) {
 
 console.log(itemsData);
 
+// paymet details 
+function storePaymentDetails() {
+
+    const upiValue = upiInput.value.trim();
+    const acnoValue = acnoInput.value.trim();
+    const noteValue = note.value.trim();
+    const termValue = term.value.trim();
+
+
+    let selectedPaymentMethod = '';
+    radioGroup.forEach(radio => {
+        if (radio.checked) {
+            selectedPaymentMethod = radio.value;
+        }
+    });
+
+    // Store the values in an object
+    const paymentDetails = {
+        upi: upiValue,
+        acno: acnoValue,
+        paymentMethod: selectedPaymentMethod,
+        notes :noteValue,
+        terms : termValue
+    };
+
+    // Log the object or use it as needed
+    console.log('Stored Payment Details:', paymentDetails);
+
+    // Example: Store in local storage
+    localStorage.setItem('paymentDetails', JSON.stringify(paymentDetails));
+
+    return paymentDetails;
+}
+
 // EVENT LISTNERS 
 fromDetails.addEventListener('click',() => {
     displayPopUp();
@@ -329,8 +380,11 @@ add_item.addEventListener('click', () => {
 });
 
 // document.addEventListener('DOMContentLoaded', calculateTotal);
+dateInput.addEventListener('change', getDateValue);
 
 tbody.addEventListener('click', RowDeletion);
+
+document.querySelector('.download').addEventListener('click', storePaymentDetails);
 
 // popupForm.addEventListener('click', function(e) ){
 //     if (e.target === popupForm) {
