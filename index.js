@@ -8,7 +8,9 @@ const add_item = document.querySelector('.add-item');
 const tbody = document.getElementById('itemTableBody');
 const xbtn = document.getElementById('close-btn');
 
-const dateInput = document.getElementById('date-input');
+const dateInput = document.getElementById('date');
+
+const downloadBtn = document.getElementById('download');
 
 let totalsub = 0;
 let totalTax = 0;
@@ -47,6 +49,12 @@ let clientsDetails = {
 
 
 // FUNC 
+
+// Function to save items data to local storage
+function saveItemsData() {
+    localStorage.setItem('itemsData', JSON.stringify(itemsData));
+}
+
 function displayPopUp() {
     clearFormInputs();
     popupForm.style.display = 'flex';
@@ -78,12 +86,27 @@ function formSubmitClient(e) {
     formSubmit('client');
 }
 
-// Function to get the date value
-function getDateValue() {
-    const dateValue = dateInput.value;
-    // console.log('Selected Date:', dateValue); 
-    return dateValue;
-}
+// Function to format date as YYYY-MM-DD
+// function getCurrentDateFormatted() {
+//     const today = new Date();
+//     const year = today.getFullYear();
+//     const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+//     const day = String(today.getDate()).padStart(2, '0');
+//     return `${year}-${month}-${day}`;
+// }
+
+// // Set the current date as the default value for the date input
+// function setDefaultDate() {
+//     const dateInput = document.getElementById('date');
+//     dateInput.value = getCurrentDateFormatted();
+// } 
+
+// Save the date input value to local storage
+// function saveDate() {
+//     const dateInput = document.getElementById('date');
+//     const selectedDate = dateInput.value;
+//     localStorage.setItem('storedDate', selectedDate);
+// }
 
 // submitting form (company)
 function formSubmit (type) {
@@ -145,7 +168,13 @@ function formSubmit (type) {
             phone: phone.value,
         };
 
-        console.log( 'company details :',companyDetails);
+        // Store company details in local storage
+        localStorage.setItem('companyDetails', JSON.stringify(companyDetails));
+
+         // Update from-details with company details
+         updateFromDetails();
+
+        // console.log( 'company details :',companyDetails);
     } else if(type === 'client') {
         clientsDetails ={
             name: name.value,
@@ -154,10 +183,12 @@ function formSubmit (type) {
             phone:phone.value,
         }
 
-        console.log( 'client details :',clientsDetails);
-    }
-    
+         // Store client details in local storage
+         localStorage.setItem('clientsDetails', JSON.stringify(clientsDetails));
 
+         updateToDetails();
+        // console.log( 'client details :',clientsDetails);
+    }
     
     
     // fromDetails.innerHTML = `
@@ -180,6 +211,30 @@ function validateEmail(email) {
 // Phone validation function (digits only)
 function validatePhone(phone) {
     return /^\d{10}$/.test(phone);
+}
+
+// Function to update the from-details div with companyDetails values
+function updateFromDetails() {
+    // Update the content with company details
+    fromDetails.innerHTML = `
+        <p>FROM</p>
+        <h3><strong>${companyDetails.name}</strong></h3>
+        <p class="details">${companyDetails.address}</p>
+        <p>${companyDetails.email}</p>
+        <p>${companyDetails.phone}</p>
+    `;
+}
+
+// Function to update the to-details div with companyDetails values
+function updateToDetails() {
+    // Update the content with company details
+    todetails.innerHTML = `
+        <p>FROM</p>
+        <h3><strong>${clientsDetails.name}</strong></h3>
+        <p class="details">${clientsDetails.address}</p>
+        <p>${clientsDetails.email}</p>
+        <p>${clientsDetails.phone}</p>
+    `;
 }
 
 // Function to add event listeners to quantity and price inputs for real-time calculations
@@ -212,13 +267,36 @@ function addCalculationListeners(row , rowIndex) {
         calculateTotal();
         calculateTax();
         calculateSum();
+        saveItemsData();
     }
     descInput.addEventListener('input', calculateSubtotal);
     qtyInput.addEventListener('input', calculateSubtotal);
     priceInput.addEventListener('input', calculateSubtotal);
     taxInput.addEventListener('input', calculateSubtotal);
 
-    
+}
+
+// Function to save all details to local storage
+function saveAllDetails() {
+    // Get date value
+    const dateValue = getDateValue();
+
+    // Combine all details into a single object
+    const allDetails = {
+        companyDetails: JSON.parse(localStorage.getItem('companyDetails')) || companyDetails,
+        clientsDetails: JSON.parse(localStorage.getItem('clientsDetails')) || clientsDetails,
+        paymentDetails: JSON.parse(localStorage.getItem('paymentDetails')) || {},
+        itemsData: JSON.parse(localStorage.getItem('itemsData')) || itemsData,
+        date: dateValue,
+        totalsub,
+        totalTax,
+        total: totalsub + totalTax,
+    };
+
+    // Save all details to local storage
+    localStorage.setItem('allDetails', JSON.stringify(allDetails));
+
+    // console.log('All details saved:', allDetails);
 }
 
 // total 
@@ -277,6 +355,7 @@ function newRowCreation() {
 
     // Add listeners for real-time calculation
     addCalculationListeners(newRow,rowIndex);
+    saveItemsData();
 }
 
 // row deleting on x button 
@@ -293,6 +372,7 @@ function RowDeletion(event) {
             calculateTotal();
             calculateTax();
             calculateSum();
+            saveItemsData();
         }
     }
 }
@@ -314,7 +394,7 @@ function RowDeletion(event) {
 //     return quantities;
 // }
 
-console.log(itemsData);
+// console.log(itemsData);
 
 // paymet details 
 function storePaymentDetails() {
@@ -342,7 +422,7 @@ function storePaymentDetails() {
     };
 
     // Log the object or use it as needed
-    console.log('Stored Payment Details:', paymentDetails);
+    // console.log('Stored Payment Details:', paymentDetails);
 
     // Example: Store in local storage
     localStorage.setItem('paymentDetails', JSON.stringify(paymentDetails));
@@ -380,11 +460,49 @@ add_item.addEventListener('click', () => {
 });
 
 // document.addEventListener('DOMContentLoaded', calculateTotal);
-dateInput.addEventListener('change', getDateValue);
+// document.addEventListener('DOMContentLoaded', setDefaultDate);
+
+// Function to set the default date to today and load the stored date if available
+document.addEventListener('DOMContentLoaded', () => {
+    const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+    dateInput.value = today;
+    localStorage.setItem('storedDate', today);
+});
+
+// Save the date whenever it changes
+document.getElementById('date').addEventListener('change', () => {
+    localStorage.setItem('storedDate', document.getElementById('date').value);
+});
+//     // Check if there's a stored date; if not, set to today's date
+//     const storedDate = localStorage.getItem('storedDate');
+//     if (storedDate) {
+//         dateInput.value = storedDate;
+//     } else {
+//         dateInput.value = today;
+//         localStorage.setItem('storedDate', today); // Store today's date as default
+//     }
+// });
+// dateInput.addEventListener('change', saveDate); // Save the new date when user changes it
 
 tbody.addEventListener('click', RowDeletion);
 
 document.querySelector('.download').addEventListener('click', storePaymentDetails);
+
+
+// Event listener for the submit button
+submitPopup.addEventListener('click', (e) => {
+    if (submitPopup.getAttribute('data-type') === 'company') {
+        formSubmitComp(e);
+    } 
+    else if (submitPopup.getAttribute('data-type') === 'client') {
+        formSubmitClient(e);
+    }
+});
+
+downloadBtn.addEventListener('click',() => {
+    const url = 'display.html';
+    window.open(url, '_blank');
+});
 
 // popupForm.addEventListener('click', function(e) ){
 //     if (e.target === popupForm) {

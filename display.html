@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Summary</title>
+    <link rel="stylesheet" href="displayStyle.css">
+</head>
+<body>
+</head>
+<body>
+    <div class="invoice-container">
+        <header class="header">
+            <h1>INVOICE</h1>
+            <p class="invoice-num">NO: INV-12345-1</p>
+        </header>
+
+        <section class="billing-section">
+            <div class="billing-details">
+                <h3>Bill To:</h3>
+                <div>
+                    <span class="label">Name:</span>
+                    <label id="billingto-name"></label>
+                </div>
+                <div>
+                    <span class="label">Address:</span>
+                    <label id="billingto-address"></label>
+                </div>
+                <div>
+                    <span class="label">Email:</span>
+                    <label id="billingto-email"></label>
+                </div>
+                <div>
+                    <span class="label">Phone:</span>
+                    <label id="billingto-phone"></label>
+                </div>
+            </div>
+            <div class="billing-details">
+                <h3>From:</h3>
+                <div>
+                    <span class="label">Name:</span>
+                    <label id="billing-name"></label>
+                </div>
+                <div>
+                    <span class="label">Address:</span>
+                    <label id="billing-address"></label>
+                </div>
+                <div>
+                    <span class="label">Email:</span>
+                    <label id="billing-email"></label>
+                </div>
+                <div>
+                    <span class="label">Phone:</span>
+                    <label id="billing-phone"></label>
+                </div>
+            </div>
+        </section>
+
+        <section class="date">
+            <label>Date:</label>
+            <label id="date"></label>
+        </section>
+
+        <table class="item-table">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Your Description</td>
+                    <td>1</td>
+                    <td>$0.00</td>
+                    <td>$0.00</td>
+                </tr>
+                <!-- Repeat rows as needed -->
+            </tbody>
+        </table>
+
+        <section class="details"> 
+            <div class=" info payment-info">
+                <h4>Payment Information:</h4>
+                <p>Bank: Name Bank</p>
+                <p>No Bank: 123-456-7890</p>
+                <p>Email: reallygreatsite.com</p>
+            </div>
+    
+            <div class="info summary">
+                <div class="main-label">INVOICE SUMMARY</div>
+                <div class="form-group">
+                    <span class="label">Subtotal:</span>
+                    <label id="res-subtotal">₹ 0</label>
+                </div>
+                <div class="form-group">
+                    <span class="label">Tax:</span>
+                    <label id="res-tax">₹ 0</label>
+                </div>
+                <div class="form-group">
+                    <span class="label">TOTAL:</span>
+                    <label id="res-total">₹ 0</label>
+                </div>
+            </div>
+
+        </section>
+        
+
+        <div class="thank-you">
+            <p>Thank You!</p>
+        </div>
+    </div>
+    
+    <script src="display.js"></script>
+</body>
+</html>
