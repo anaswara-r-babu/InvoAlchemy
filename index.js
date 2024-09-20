@@ -1,5 +1,6 @@
 const fromDetails = document.getElementById('from-details');
 const todetails = document.getElementById('to-details');
+const invoiceInput = document.getElementById('invoice-num');
 const popupForm = document.getElementById('popupForm');
 const closeFormBtn = document.getElementById('closeFormBtn');
 const submitPopup = document.getElementById('submit-btn')
@@ -52,6 +53,19 @@ let clientsDetails = {
 
 // Function to save items data to local storage
 function saveItemsData() {
+    // localStorage.setItem('itemsData', JSON.stringify(itemsData));
+    const rows = document.querySelectorAll('#itemTableBody .table-inputs');
+
+    itemsData = Array.from(rows).map((row) => {
+        const desc = row.querySelector('.description').value || '';
+        const qty = parseFloat(row.querySelector('.qty').value) || 0;
+        const price = parseFloat(row.querySelector('.price').value) || 0;
+        const tax = parseFloat(row.querySelector('.taxation').value) || 0;
+        const subtotal = qty * price;
+
+        return { desc, qty, price, tax, subtotal };
+    });
+
     localStorage.setItem('itemsData', JSON.stringify(itemsData));
 }
 
@@ -107,6 +121,12 @@ function formSubmitClient(e) {
 //     const selectedDate = dateInput.value;
 //     localStorage.setItem('storedDate', selectedDate);
 // }
+
+// invoice id 
+invoiceInput.addEventListener('input', () => {
+    const invoiceNum = invoiceInput.value.trim();
+    localStorage.setItem('invoiceNum', invoiceNum);
+});
 
 // submitting form (company)
 function formSubmit (type) {
@@ -229,7 +249,7 @@ function updateFromDetails() {
 function updateToDetails() {
     // Update the content with company details
     todetails.innerHTML = `
-        <p>FROM</p>
+        <p>TO</p>
         <h3><strong>${clientsDetails.name}</strong></h3>
         <p class="details">${clientsDetails.address}</p>
         <p>${clientsDetails.email}</p>
@@ -268,6 +288,7 @@ function addCalculationListeners(row , rowIndex) {
         calculateTax();
         calculateSum();
         saveItemsData();
+        saveAllDetails() 
     }
     descInput.addEventListener('input', calculateSubtotal);
     qtyInput.addEventListener('input', calculateSubtotal);
@@ -278,18 +299,18 @@ function addCalculationListeners(row , rowIndex) {
 
 // Function to save all details to local storage
 function saveAllDetails() {
-    // Get date value
-    const dateValue = getDateValue();
+    // // Get date value
+    // const dateValue = getDateValue();
 
     // Combine all details into a single object
     const allDetails = {
-        companyDetails: JSON.parse(localStorage.getItem('companyDetails')) || companyDetails,
-        clientsDetails: JSON.parse(localStorage.getItem('clientsDetails')) || clientsDetails,
-        paymentDetails: JSON.parse(localStorage.getItem('paymentDetails')) || {},
+        // companyDetails: JSON.parse(localStorage.getItem('companyDetails')) || companyDetails,
+        // clientsDetails: JSON.parse(localStorage.getItem('clientsDetails')) || clientsDetails,
+        // paymentDetails: JSON.parse(localStorage.getItem('paymentDetails')) || {},
         itemsData: JSON.parse(localStorage.getItem('itemsData')) || itemsData,
-        date: dateValue,
-        totalsub,
-        totalTax,
+        // date: dateValue,
+        totalsub: totalsub,
+        totalTax: totalTax,
         total: totalsub + totalTax,
     };
 
@@ -356,6 +377,7 @@ function newRowCreation() {
     // Add listeners for real-time calculation
     addCalculationListeners(newRow,rowIndex);
     saveItemsData();
+    saveAllDetails() 
 }
 
 // row deleting on x button 
@@ -373,6 +395,7 @@ function RowDeletion(event) {
             calculateTax();
             calculateSum();
             saveItemsData();
+            saveAllDetails() 
         }
     }
 }
@@ -429,6 +452,7 @@ function storePaymentDetails() {
 
     return paymentDetails;
 }
+
 
 // EVENT LISTNERS 
 fromDetails.addEventListener('click',() => {
@@ -499,7 +523,8 @@ submitPopup.addEventListener('click', (e) => {
     }
 });
 
-downloadBtn.addEventListener('click',() => {
+downloadBtn.addEventListener('click',(event) => {
+    event.preventDefault();
     const url = 'display.html';
     window.open(url, '_blank');
 });
@@ -508,4 +533,30 @@ downloadBtn.addEventListener('click',() => {
 //     if (e.target === popupForm) {
 //         popupForm.style.display = 'none';
 //     }
+// }
+
+document.querySelectorAll('.item-control').forEach(input => {
+    input.addEventListener('input', saveItemsData);
+});
+
+// clearing form 
+window.addEventListener('load', () => {
+    localStorage.clear();
+    // clearAllFields();
+});
+
+// function clearAllFields() {
+//     const allInputs = document.querySelectorAll('input[type="text"], input[type="number"], input[type="email"], textarea');
+//     allInputs.forEach(input => {
+//         input.value = '';
+//     });
+
+//     // Clear table rows
+//     // const rows = document.querySelectorAll('#itemTableBody tr');
+//     // rows.forEach(row => row.remove());
+
+//     // Reset any summary values (e.g., totals)
+//     resSubtotal.textContent = '₹ 0.00';
+//     resTax.textContent = '₹ 0.00';
+//     resTotal.textContent = '₹ 0.00';
 // }

@@ -12,29 +12,11 @@
     <div class="invoice-container">
         <header class="header">
             <h1>INVOICE</h1>
-            <p class="invoice-num">NO: INV-12345-1</p>
+            <p>Invoice Number: <span id="display-invoice-num"></span></p>
         </header>
 
         <section class="billing-section">
-            <div class="billing-details">
-                <h3>Bill To:</h3>
-                <div>
-                    <span class="label">Name:</span>
-                    <label id="billingto-name"></label>
-                </div>
-                <div>
-                    <span class="label">Address:</span>
-                    <label id="billingto-address"></label>
-                </div>
-                <div>
-                    <span class="label">Email:</span>
-                    <label id="billingto-email"></label>
-                </div>
-                <div>
-                    <span class="label">Phone:</span>
-                    <label id="billingto-phone"></label>
-                </div>
-            </div>
+            
             <div class="billing-details">
                 <h3>From:</h3>
                 <div>
@@ -54,6 +36,27 @@
                     <label id="billing-phone"></label>
                 </div>
             </div>
+
+            <div class="billing-details">
+                <h3>Bill To:</h3>
+                <div>
+                    <span class="label">Name:</span>
+                    <label id="billingto-name"></label>
+                </div>
+                <div>
+                    <span class="label">Address:</span>
+                    <label id="billingto-address"></label>
+                </div>
+                <div>
+                    <span class="label">Email:</span>
+                    <label id="billingto-email"></label>
+                </div>
+                <div>
+                    <span class="label">Phone:</span>
+                    <label id="billingto-phone"></label>
+                </div>
+            </div>
+            
         </section>
 
         <section class="date">
@@ -64,50 +67,75 @@
         <table class="item-table">
             <thead>
                 <tr>
-                    <th>Description</th>
-                    <th>Qty</th>
-                    <th>Price</th>
-                    <th>Total</th>
+                    <th class="description">Description</th>
+                    <th class="small">Quantity</th>
+                    <th class="price">Price</th>
+                    <th>Tax</th>
+                    <th>Subtotal</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
+
+            <tbody id="displayTableBody">
+                <!-- Data will be populated here -->
+            </tbody>
+            <!-- <tbody id="itemTableBodyDisplay">
+                 <tr>
                     <td>Your Description</td>
                     <td>1</td>
-                    <td>$0.00</td>
-                    <td>$0.00</td>
-                </tr>
-                <!-- Repeat rows as needed -->
-            </tbody>
+                    <td>₹0.00</td>
+                    <td>₹0.00</td>
+                    <td>₹0.00</td>
+                </tr> 
+                 Repeat rows as needed 
+            </tbody>  -->
         </table>
 
         <section class="details"> 
-            <div class=" info payment-info">
+            <div class="info payment-info">
                 <h4>Payment Information:</h4>
-                <p>Bank: Name Bank</p>
-                <p>No Bank: 123-456-7890</p>
-                <p>Email: reallygreatsite.com</p>
+                <div class="info-row item">
+                    <span class="payment">UPI :</span>
+                    <label class="upiid" id="res-upi"></label>
+                </div>
+                <div class="info-row">
+                    <span class="payment item" >GST :</span>
+                    <label class="gstid" id="res-gst"></label>
+                </div>
+                <div class="info-row item">
+                    <span class="payment">Method of Payment :</span>
+                    <label class="method" id="res-method"></label>
+                </div>
             </div>
     
             <div class="info summary">
-                <div class="main-label">INVOICE SUMMARY</div>
-                <div class="form-group">
-                    <span class="label">Subtotal:</span>
-                    <label id="res-subtotal">₹ 0</label>
+                <div class="main-label"><h4>INVOICE SUMMARY</h4></div>
+                <div class="form-group item">
+                    <span class="labelsum">Subtotal:</span>
+                    <label class="resultlabel" id="res-subtotal">₹ 0</label>
                 </div>
-                <div class="form-group">
-                    <span class="label">Tax:</span>
-                    <label id="res-tax">₹ 0</label>
+                <div class="form-group item">
+                    <span class="labelsum">Tax:</span>
+                    <label class="resultlabel" id="res-tax">₹ 0</label>
                 </div>
-                <div class="form-group">
-                    <span class="label">TOTAL:</span>
-                    <label id="res-total">₹ 0</label>
+                <div class="form-group item">
+                    <span class="labelsum">TOTAL:</span>
+                    <label class="resultlabel" id="res-total">₹ 0</label>
                 </div>
             </div>
 
         </section>
-        
 
+        <section class="display-notes-terms">
+            <div class="display-notes info">
+                <p>NOTES</p>
+                <label for="" id="res-note" class="display-info">wgfre</label> 
+            </div>
+            <div class="display-terms info">
+                <p>TERMS</p>
+                <label for="" id="res-term" class="display-info">rgerg</label>
+            </div>
+        </section>
+        
         <div class="thank-you">
             <p>Thank You!</p>
         </div>

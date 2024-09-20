@@ -338,6 +338,10 @@ label {
     font-size: 14px;
 }
 
+.addl-info {
+    width: 800px;
+}
+
 .button-container {
     position: relative;
     top: 250px;
