@@ -139,8 +139,36 @@ body {
     width: 150px;
 }
 
+#res-total {
+    font-weight: 600;
+}
+
 .display-notes-terms {
     margin-top: 80px;
+}
+
+/* .amount-in-words-container {
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    margin-top: 10px;
+    width: 300px;
+    margin-left: 200px;
+} */
+.amount-in-words-container {
+    position: relative;
+    top: 0; 
+    right: 250px; 
+    text-align: left;
+    width: 500px;
+    line-height: 20px;
+    margin: 20px 0 0 0;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+
+
 }
 
 .thank-you {

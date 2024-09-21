@@ -81,4 +81,77 @@ document.getElementById('res-method').textContent = paymentDetails.paymentMethod
 document.getElementById('res-note').textContent = paymentDetails.notes || 'N/A';
 document.getElementById('res-term').textContent = paymentDetails.terms || 'N/A';
 
+// converting digits into words 
+// Helper function to format number with commas (Indian style)
+function formatWithCommas(num) {
+    // return num.toString().replace(/\B(?=(\d{2})+(?!\d))/g, ",").replace(/(\d+),(?=(\d{3}))/g, "$1,");
+    const numStr = num.toString();
+    const lastThree = numStr.slice(-3);
+    const otherNumbers = numStr.slice(0, -3);
+    
+    // If the number is greater than 999, format accordingly
+    if (otherNumbers !== '') {
+        return otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + "," + lastThree;
+    } else {
+        return lastThree;
+    }
+}
+function numberToWords(num) {
+    const belowTwenty = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", 
+                         "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
+    const tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+    const thousands = ["", "Thousand", "Million", "Billion"];
+
+    if (num === 0) return "Zero";
+
+    let word = '';
+
+    function helper(n) {
+        if (n < 20) {
+            return belowTwenty[n];
+        } else if (n < 100) {
+            return tens[Math.floor(n / 10)] + (n % 10 !== 0 ? " " + belowTwenty[n % 10] : "");
+        } else if (n < 1000) {
+            return belowTwenty[Math.floor(n / 100)] + " Hundred" + (n % 100 !== 0 ? " " + helper(n % 100) : "");
+        } else {
+            return "";
+        }
+    }
+
+    // // american numbering 
+    // let i = 0;
+    // while (num > 0) {
+    //     if (num % 1000 !== 0) {
+    //         word = helper(num % 1000) + " " + thousands[i] + (word ? " " + word : "");
+    //     }
+    //     num = Math.floor(num / 1000);
+    //     i++;
+    // }
+
+    // return word.trim();
+
+    // indian numbering 
+    // Break number into parts: Crores, Lakhs, Thousands, Hundreds
+    let crore = Math.floor(num / 10000000);
+    num %= 10000000;
+    let lakh = Math.floor(num / 100000);
+    num %= 100000;
+    let thousand = Math.floor(num / 1000);
+    num %= 1000;
+    let hundred = num;
+
+    if (crore) word += helper(crore) + " Crore ";
+    if (lakh) word += helper(lakh) + " Lakh ";
+    if (thousand) word += helper(thousand) + " Thousand ";
+    if (hundred) word += helper(hundred);
+
+    return word.trim();
+}
+
+    var totalAmount = parseInt(document.getElementById('res-total').textContent.replace('₹', '').trim(), 10); 
+    var formattedAmount = formatWithCommas(totalAmount);
+    var words = numberToWords(totalAmount); 
+    document.getElementById('res-total').textContent = `₹ ${formattedAmount}`;
+    document.getElementById('res-words').textContent = words + ' Rupees Only';
+
 });
