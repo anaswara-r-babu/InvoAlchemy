@@ -69,9 +69,41 @@ function saveItemsData() {
     localStorage.setItem('itemsData', JSON.stringify(itemsData));
 }
 
-function displayPopUp() {
+function displayPopUp(type) {
     clearFormInputs();
-    popupForm.style.display = 'flex';
+// Check if we are editing the client or company details
+if (type === 'client') {
+    const name = document.getElementById('name');
+    const address = document.getElementById('address');
+    const email = document.getElementById('email');
+    const phone = document.getElementById('phone');
+
+    // Check if client details are already stored
+    const storedClientDetails = JSON.parse(localStorage.getItem('clientsDetails'));
+
+    if (storedClientDetails) {
+        name.value = storedClientDetails.name || '';
+        address.value = storedClientDetails.address || '';
+        email.value = storedClientDetails.email || '';
+        phone.value = storedClientDetails.phone || '';
+    }
+// } else if (type === 'company') {
+//     const companyName = document.getElementById('companyName');
+//     const companyAddress = document.getElementById('companyAddress');
+//     const companyEmail = document.getElementById('companyEmail');
+//     const companyPhone = document.getElementById('companyPhone');
+
+//     // Check if company details are already stored
+//     const storedCompanyDetails = JSON.parse(localStorage.getItem('companyDetails'));
+
+//     if (storedCompanyDetails) {
+//         companyName.value = storedCompanyDetails.companyName || '';
+//         companyAddress.value = storedCompanyDetails.companyAddress || '';
+//         companyEmail.value = storedCompanyDetails.companyEmail || '';
+//         companyPhone.value = storedCompanyDetails.companyPhone || '';
+//     }
+}
+popupForm.style.display = 'flex';
 }
 
 // clearing existing values from form 
@@ -360,10 +392,10 @@ function newRowCreation() {
     newRow.classList.add('table-inputs');
 
     newRow.innerHTML = `
-        <td id="first-inp"><input type="text" class="item-control wide description"></td>
-        <td id="rightside"><input type="text" class="item-control small qty"></td>
-        <td id="rightside"><input type="text" class="item-control small price"></td>
-        <td id="rightside"><input type="text" class="item-control small taxation"></td>
+        <td id="first-inp"><input type="text" class="item-control wide description" placeholder="Enter the Item"></td>
+        <td id="rightside"><input type="number" class="item-control small qty" required value="1"></td>
+        <td id="rightside"><input type="number" class="item-control small price" required placeholder="0.00"></td>
+        <td id="rightside"><input type="number" class="item-control small taxation" required placeholder="0.00"></td>
         <td id="rightside"><label class="item-control medium subtotal">₹ 0</label></td>
         <td id="close-btn">X</td>
     `;
@@ -456,13 +488,13 @@ function storePaymentDetails() {
 
 // EVENT LISTNERS 
 fromDetails.addEventListener('click',() => {
-    displayPopUp();
+    displayPopUp('company');
     submitPopup.removeEventListener('click', formSubmitClient);
     submitPopup.addEventListener('click',formSubmitComp);
 
 });
 todetails.addEventListener('click', () => {
-    displayPopUp();
+    displayPopUp('client');
     submitPopup.removeEventListener('click', formSubmitComp);
     submitPopup.addEventListener('click', formSubmitClient);
 });

@@ -51,10 +51,17 @@ body {
     font-size: 30px;
     font-family: Arial, sans-serif;
     opacity: 1; 
+    text-align: right;
+}
+#invoice-num {text-align: right; }
+
+.small {
+    text-align: right;
 }
 
 input:last-child {
     margin-bottom: 0;
+    /* text-align: right; */
 }
 
 input:focus {

@@ -9,7 +9,7 @@
 <body>
 </head>
 <body>
-    <div class="invoice-container">
+    <div class="invoice-container" id="invoice-container">
         <header class="header">
             <h1>INVOICE</h1>
             <p>Invoice Number: <span id="display-invoice-num"></span></p>
@@ -18,41 +18,41 @@
         <section class="billing-section">
 
             <div class="billing-details">
-                <h3>From:</h3>
+                <h3>From :</h3>
                 <div>
-                    <span class="label">Name:</span>
+                    <span class="label">Name :</span>
                     <label id="billing-name"></label>
                 </div>
                 <div>
-                    <span class="label">Address:</span>
+                    <span class="label">Address :</span>
                     <label id="billing-address"></label>
                 </div>
                 <div>
-                    <span class="label">Email:</span>
+                    <span class="label">Email :</span>
                     <label id="billing-email"></label>
                 </div>
                 <div>
-                    <span class="label">Phone:</span>
+                    <span class="label">Phone :</span>
                     <label id="billing-phone"></label>
                 </div>
             </div>
 
             <div class="billing-details">
-                <h3>Bill To:</h3>
+                <h3>Bill To :</h3>
                 <div>
-                    <span class="label">Name:</span>
+                    <span class="label">Name :</span>
                     <label id="billingto-name"></label>
                 </div>
                 <div>
-                    <span class="label">Address:</span>
+                    <span class="label">Address :</span>
                     <label id="billingto-address"></label>
                 </div>
                 <div>
-                    <span class="label">Email:</span>
+                    <span class="label">Email :</span>
                     <label id="billingto-email"></label>
                 </div>
                 <div>
-                    <span class="label">Phone:</span>
+                    <span class="label">Phone :</span>
                     <label id="billingto-phone"></label>
                 </div>
             </div>
@@ -60,7 +60,7 @@
         </section>
 
         <section class="date">
-            <label>Date:</label>
+            <label>Date :</label>
             <label id="date"></label>
         </section>
 
@@ -105,8 +105,9 @@
                     <span class="payment">Method of Payment :</span>
                     <label class="method" id="res-method"></label>
                 </div>
+                
             </div>
-    
+            
             <div class="info summary">
                 <div class="main-label"><h4>INVOICE SUMMARY</h4></div>
                 <div class="form-group item">
@@ -121,13 +122,14 @@
                     <span class="labelsum">TOTAL:</span>
                     <label class="resultlabel" id="res-total">₹ 0</label>
                 </div>
-                <div class="amount-in-words-container item">
-                    <span class="labelsum" id="amount-in-words">Total in words:</span> <br> 
-                    <label class="resultlabel" id="res-words">gf</label>
-                </div>
+                <!-- total amount in words  -->
             </div>
 
         </section>
+        <div class="amount-in-words-container item">
+            <span class="labelsum" id="amount-in-words">Total in words:</span> <br> 
+            <label class="resultlabel" id="res-words">₹ 0</label>
+        </div>
 
         <section class="display-notes-terms">
             <div class="display-notes info">
@@ -143,8 +145,14 @@
         <div class="thank-you">
             <p>Thank You!</p>
         </div>
+        <div class="download">
+            <button id="downloadBtn">Download PDF</button>
+        </div>
+        
     </div>
     
     <script src="display.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+    <script src="download.js"></script>
 </body>
 </html>
