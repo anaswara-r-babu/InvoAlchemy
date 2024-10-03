@@ -85,19 +85,89 @@
 // });
 
 
-document.getElementById('downloadBtn').addEventListener('click', function() {
-    // Get the content you want to download
+// document.getElementById('downloadBtn').addEventListener('click', function() {
+//     // Get the content you want to download
+//     const element = document.getElementById('invoice-container');
+
+//     // Configure html2pdf options
+//     const options = {
+//         // margin:       0.5,          // Margin around the content
+//         filename:     `${companyName}.pdf`, // Name of the downloaded file
+//         image:        { type: 'jpeg', quality: 0.98 },
+//         html2canvas:  { scale: 2 }, // Higher scale for better resolution
+//         jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' } // PDF format and orientation
+//     };
+
+//     // Trigger the download using html2pdf
+//     html2pdf().from(element).set(options).save();
+// });
+
+
+// document.getElementById('downloadBtn').addEventListener('click', () => {
+//     // Load the jsPDF module
+//     const { jsPDF } = window.jspdf;
+
+//     // Create a new PDF document
+//     const doc = new jsPDF();
+
+//     // Get the company name
+//     const companyDetails = JSON.parse(localStorage.getItem('companyDetails'));
+//     const companyName = companyDetails ? companyDetails.name : 'Invoice';
+
+//     // Add content to the PDF (you can customize this as needed)
+//     doc.text('Invoice', 10, 10);
+    
+//     // Example of adding other content
+//     doc.text(`Company Name: ${companyName}`, 10, 20);
+    
+//     // You can add more content here based on what you want in the PDF
+//     doc.text(`Date: ${document.getElementById('date').textContent}`, 10, 30);
+
+//     // Save the PDF with the company name as filename
+//     doc.save(`${companyName}.pdf`);
+// });
+
+document.getElementById('downloadBtn').addEventListener('click', () => {
+    // Get the company details for the filename
+    const companyDetails = JSON.parse(localStorage.getItem('companyDetails'));
+    const companyName = companyDetails ? companyDetails.name : 'Invoice';
+
+    //element to be converted to PDF (e.g., a div with id 'pdfContent')
     const element = document.getElementById('invoice-container');
 
-    // Configure html2pdf options
+    // Set up options for html2pdf
     const options = {
-        // margin:       0.5,          // Margin around the content
-        filename:     'display.pdf', // Name of the downloaded file
+        filename:     `${companyName}_Invoice.pdf`, 
         image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2 }, // Higher scale for better resolution
-        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' } // PDF format and orientation
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'pt', format: 'a4', orientation: 'portrait' }
     };
 
-    // Trigger the download using html2pdf
+    // Generate and save the PDF
     html2pdf().from(element).set(options).save();
 });
+
+
+// document.getElementById('downloadBtn').addEventListener('click', () => {
+//     // Load the jsPDF and html2canvas libraries
+//     const { jsPDF } = window.jspdf;
+
+//     // Get the company details for the filename
+//     const storedCompanyDetails = localStorage.getItem('companyDetails');
+//     const companyDetails = storedCompanyDetails ? JSON.parse(storedCompanyDetails) : {};
+//     const companyName = companyDetails.name || 'Invoice';
+
+//     // Use html2canvas to capture the content of the display page
+//     html2canvas(document.body, { scale: 2 }).then(canvas => {
+//         const imgData = canvas.toDataURL('image/png');
+
+//         // Create a new jsPDF document
+//         const doc = new jsPDF();
+
+//         // Add the image to the PDF
+//         doc.addImage(imgData, 'PNG', 0, 0);
+
+//         // Save the PDF with the company name as filename
+//         doc.save(`${companyName}.pdf`);
+//     });
+// });

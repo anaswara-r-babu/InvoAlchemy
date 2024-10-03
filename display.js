@@ -44,6 +44,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (storedDateDetail) {
         document.getElementById('date').textContent= storedDateDetail;
     }
+    else {
+        // If no date is stored, you can display a default message or current date
+        document.getElementById('date').textContent = new Date().toISOString().split('T')[0];
+    }
+
+
 // });
 
 // Retrieve saved data from localStorage

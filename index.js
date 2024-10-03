@@ -392,7 +392,7 @@ function newRowCreation() {
     newRow.classList.add('table-inputs');
 
     newRow.innerHTML = `
-        <td id="first-inp"><input type="text" class="item-control wide description" placeholder="Enter the Item"></td>
+        <td id="first-inp"><input type="text" class="item-control wide description" placeholder="Item / Product name"></td>
         <td id="rightside"><input type="number" class="item-control small qty" required value="1"></td>
         <td id="rightside"><input type="number" class="item-control small price" required placeholder="0.00"></td>
         <td id="rightside"><input type="number" class="item-control small taxation" required placeholder="0.00"></td>
@@ -529,6 +529,9 @@ document.addEventListener('DOMContentLoaded', () => {
 document.getElementById('date').addEventListener('change', () => {
     localStorage.setItem('storedDate', document.getElementById('date').value);
 });
+
+
+
 //     // Check if there's a stored date; if not, set to today's date
 //     const storedDate = localStorage.getItem('storedDate');
 //     if (storedDate) {
